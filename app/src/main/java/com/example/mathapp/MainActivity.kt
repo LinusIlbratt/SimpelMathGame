@@ -1,5 +1,6 @@
 package com.example.mathapp
 
+import QuestionAnswer
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity(), NumberPadDisplay {
     private var totalQuestions = 5
     private var selectedMathOperation: String? = null
 
-    private val questionsAndAnswers = mutableListOf<String>()
+    private val questionsAndAnswers = mutableListOf<QuestionAnswer>()
 
     override fun onNumberPressed(number: String) {
         val numDisplay = findViewById<TextView>(R.id.numDisplay)
@@ -90,17 +91,24 @@ class MainActivity : AppCompatActivity(), NumberPadDisplay {
     }
 
     fun handleAnswer() {
-        val userAnswer = findViewById<TextView>(R.id.numDisplay).text.toString()
-        val question = mathQuestionView.text.toString()
-        val answeredCorrect = checkAnswer().toString()
-        val answerInfo = "$question $userAnswer $answeredCorrect"
-        questionsAndAnswers.add(answerInfo)
+        val userAnswerText = findViewById<TextView>(R.id.numDisplay).text.toString()
+        val userAnswer = userAnswerText.toIntOrNull() ?: 0
+        val questionText = mathQuestionView.text.toString()
+        val isAnswerCorrect = checkAnswer()
+
+        val questionAnswer = QuestionAnswer(
+            question = questionText,
+            userAnswer = userAnswer,
+            correctAnswer = correctAnswer,
+            isCorrect = isAnswerCorrect
+        )
+        questionsAndAnswers.add(questionAnswer)
 
         answeredQuestions++
 
         if (answeredQuestions >= totalQuestions) {
             val intent = Intent(this, AnswerActivity::class.java)
-            intent.putStringArrayListExtra("questionsAndAnswersList", ArrayList(questionsAndAnswers))
+            intent.putParcelableArrayListExtra("questionsAndAnswersList", ArrayList(questionsAndAnswers))
             startActivity(intent)
         } else {
             setNewQuestion()

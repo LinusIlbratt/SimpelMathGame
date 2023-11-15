@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Mathapp</string>
+    <string name="question">Question</string>
+    <string name="your_answer">Your answer</string>
+    <string name="correct_answer">Correct answer</string>
+    <string name="is_correct">Correct</string>
 </resources>
