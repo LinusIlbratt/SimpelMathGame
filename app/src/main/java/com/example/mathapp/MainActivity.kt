@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(), NumberPadDisplay {
     }
 
     fun checkAnswer() : Boolean {
-        // Get text from TextView that shows the users answer
+
         val numDisplay = findViewById<TextView>(R.id.numDisplay)
         val answerText = numDisplay.text.toString()
         val answer = answerText.toIntOrNull()
